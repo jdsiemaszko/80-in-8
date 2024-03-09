@@ -1,0 +1,30 @@
+operation type:
+-addition
+-subtraction
+-multiplication
+-division
+
+syntax type:
+-integer
+-decimal
+-fraction
+-integer_fraction
+
+ANSWER range:
+-integer - 3 digits
+-decimals - 3 sig figs
+-fraction - 2 digits num, 2 digits den
+-mixed - 1 digit, 2 num, 2 den
+
+VALUE range:
+-integer - 4 digits
+-decimals - 3 sig figs
+-fraction - 2 digits num, 2 digits den
+-mixed - 2 digit, 2 num, 2 den
+
+difficulty scaling:
+???
+
+command syntax:
+
+" {NUM1} {OPERATION} {ANSWER} = {NUM2} "
