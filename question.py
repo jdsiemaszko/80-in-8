@@ -33,7 +33,7 @@ class IntQuestion(Question):
                 self.number1 = self.number2 * self.answer
 
     def ask(self):
-        self.prompt = '{} {} {} = {} \n'.format(self.number1, self.op, '???', self.number2)
+        self.prompt = '{:d} {} {} = {:d} \n'.format(self.number1, self.op, '???', self.number2)
         print(self.prompt)
         self.user_input = input()
         self.answered = True
@@ -44,7 +44,47 @@ class IntQuestion(Question):
             self.correct = True
 
 
-QUESTION_CLASSES = [IntQuestion]
+class DecQuestion(Question):
+    def __init__(self, operation, difficulty=3) -> None:
+        super().__init__(operation, difficulty)
+
+        self.mantissa_digits = difficulty
+        self.exp_range = (-difficulty+1, difficulty)
+        self.generate()
+
+    def generate(self):
+        exp = rd.randint(low = self.exp_range[0], high=self.exp_range[1])
+
+        self.answer = rd.random() * 10**exp 
+        self.answer = round(self.answer, self.mantissa_digits-exp if exp > 0 else self.mantissa_digits)
+
+        # match self.op:
+        #     case '+':
+        #         self.number1 = rd.randint(1, self.value_range - self.answer)
+        #         self.number2 = self.number1 + self.answer
+        #     case '-':
+        #         self.number2 = rd.randint(1, self.value_range - self.answer)
+        #         self.number1 = self.number2 + self.answer
+        #     case '*':
+        #         self.number1 = rd.randint(1, int(self.value_range / self.answer))
+        #         self.number2 = self.number1 * self.answer
+        #     case '/':
+        #         self.number2 =  rd.randint(1, int(self.value_range / self.answer))
+        #         self.number1 = self.number2 * self.answer
+
+    def ask(self):
+        self.prompt = '{:.{}} {} {} = {:.{}} \n'.format(self.number1, self.mantissa_digits, self.op, '???', self.number2, self.mantissa_digits)
+        print(self.prompt)
+        self.user_input = input()
+        self.answered = True
+
+    def assess(self):
+        value = parse(self.user_input)
+        if value == self.answer:
+            self.correct = True
+
+
+QUESTION_CLASSES = [DecQuestion]
 OPERATIONS = ['+', '-', '*', '/']
 def generate_questions(N, difficulty=3):
     question_array = np.empty(N, dtype=Question)
